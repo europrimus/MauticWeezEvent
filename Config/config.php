@@ -8,43 +8,52 @@
  */
 
 return array(
-  // informations sur le plugin
-    'name'        => 'Weezevent',
-    'description' => 'Enables integrations with weezevent.com',
-    'version'     => '0.1',
-    'author'      => 'Didier et Geoffrey',
+// informations sur le plugin
+  'name'        => 'Weezevent',
+  'description' => 'Récupération de donnée weezevent.com
+---
+Plus d\'inf sur <a href="https://github.com/europrimus/MauticWeezEvent">github</a>.
+Pensser a le <a href="/plugins/weezevent">configuration</a>',
+  'version'     => '0.1',
+  'author'      => 'Didier et Geoffrey',
 
 // les parametre de configuration
-    'parameters' => array(
-        'Weezevent_enabled' => false,
-        'Weezevent_login' => '',
-        'Weezevent_password' => '',
-        'Weezevent_API_key' => '',
-    ),
+  'parameters' => array(
+      'Weezevent_enabled' => true,
+      'Weezevent_login' => '',
+      'Weezevent_password' => '',
+      'Weezevent_API_key' => '',
+  ),
 
 // les routes
-    'routes'   => array(
-      'main' => array(
-        'plugin_weezevent_config' => array(
-          'path'       => '/plugins/weezevent',
-          'controller' => 'MauticWeezeventBundle:Default:world',
-        ),
+  'routes'   => array(
+    'main' => array(
+      'plugin_weezevent_config' => array(
+        'path'       => '/plugins/weezevent',
+        'controller' => 'MauticWeezeventBundle:admin:config',
       ),
     ),
+  ),
 
-    'menu'     => array(
-        'admin' => array(
-            'plugin.weezevent.admin' => array(
-                'route'     => 'plugin_weezevent_config',
-                'iconClass' => 'fa-gears',
-                'access'    => 'admin',
-                'checks'    => array(
-                    'parameters' => array(
-                        'Weezevent_enabled' => true
-                    )
-                ),
-                'priority'  => 60
-            )
-        )
-    ),
+// ajout dans le menu
+  'menu'     => array(
+      'admin' => array(
+          'plugin.weezevent.admin' => array(
+              'route'     => 'plugin_weezevent_config',
+              'iconClass' => 'fa-gears',
+              'access'    => 'admin',
+              'checks'    => array(
+                  'parameters' => array(
+                      'Weezevent_enabled' => true
+                  )
+              ),
+              'priority'  => 60
+          )
+      )
+  ),
+
+// Catégorie
+  'categories' => array(
+      'plugin:weezevent' => 'mautic.weezevent.categories'
+  ),
 );
