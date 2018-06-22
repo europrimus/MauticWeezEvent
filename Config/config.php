@@ -20,5 +20,31 @@ return array(
         'Weezevent_login' => '',
         'Weezevent_password' => '',
         'Weezevent_API_key' => '',
-    )
+    ),
+
+// les routes
+    'routes'   => array(
+      'main' => array(
+        'plugin_weezevent_config' => array(
+          'path'       => '/plugins/weezevent',
+          'controller' => 'MauticWeezeventBundle:Default:world',
+        ),
+      ),
+    ),
+
+    'menu'     => array(
+        'admin' => array(
+            'plugin.weezevent.admin' => array(
+                'route'     => 'plugin_weezevent_config',
+                'iconClass' => 'fa-gears',
+                'access'    => 'admin',
+                'checks'    => array(
+                    'parameters' => array(
+                        'Weezevent_enabled' => true
+                    )
+                ),
+                'priority'  => 60
+            )
+        )
+    ),
 );

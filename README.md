@@ -19,4 +19,22 @@ Mautic est un logiciel libre qui permet de faire des envois de mail automatique 
 
 ### Créer un plugin
 [How to Create a Mautic Plugin: Tutorial Series (Introduction)](https://www.mautic.org/blog/developer/how-to-create-a-mautic-plugin-tutorial-series-introduction/)  
-[How to Create a Mautic Plugin: Step 2](https://www.mautic.org/blog/developer/how-to-create-a-mautic-plugin-step-2/)
+[How to Create a Mautic Plugin: Step 2](https://www.mautic.org/blog/developer/how-to-create-a-mautic-plugin-step-2/)  
+La [doc officielle](https://developer.mautic.org/?php#plugins)  
+
+## Notre plugin
+### la configuration
+pour allez récupérer les infos de weezevent  
+- identifiant
+- mot de passe
+- cles API  
+
+### les infos récupérer
+- participant :
+  - nom preénom
+  - Entreprise
+  - e-mail
+- évènement :
+  - nom
+  - date
+  - catégorie
