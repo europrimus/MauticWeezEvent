@@ -17,6 +17,15 @@ on peu ensuite récupérer la liste des participants
 Mautic est un logiciel libre qui permet de faire des envois de mail automatique ciblé  
 [mautic](https://mautic.org)
 
+### Environement de développement  
+pour passer en environement de développement, lancer :  
+
+    php app/console cache:clear --env=dev
+
+puis il faut ouvrir l'url  
+
+> http://localhost/mautic-staging/index_dev.php
+
 ### Créer un plugin
 [How to Create a Mautic Plugin: Tutorial Series (Introduction)](https://www.mautic.org/blog/developer/how-to-create-a-mautic-plugin-tutorial-series-introduction/)  
 [How to Create a Mautic Plugin: Step 2](https://www.mautic.org/blog/developer/how-to-create-a-mautic-plugin-step-2/)  
@@ -26,7 +35,7 @@ La [doc officielle](https://developer.mautic.org/?php#plugins)
 [Comment développer un plugin Mautic](https://www.hachther.com/fr/blog/commencez-votre-plugin-mautic-helloword/)
 très succin ...
 
-## ce plugin
+## Ce plugin
 ### la configuration
 pour allez récupérer les infos de weezevent  
 - identifiant
