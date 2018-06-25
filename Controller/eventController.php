@@ -4,13 +4,15 @@
 namespace MauticPlugin\MauticWeezeventBundle\Controller;
 
 use Mautic\CoreBundle\Controller\FormController;
-use MauticPlugin\MauticWeezeventBundle\Model\weezeventModel;
 
 class eventController extends FormController
 {
-// gaffiche la configuration
+// liste les événements
   public function listeAction(){
-    $weezeventObj = new weezeventModel();
+    $weezeventObj = $this->getModel('mauticweezevent.api');
+//$weezeventObj = $this->getModel('weezeventAPI');
+    dump($weezeventObj);
+    //$weezeventObj = new weezeventModel();
     $events = $weezeventObj->getEvents();
     return $this->delegateView(
       array(

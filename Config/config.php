@@ -25,6 +25,16 @@ Pensser à le <a href="/plugins/weezevent">configurer</a>',
       'Weezevent_API_key' => '',
   ),
 
+// services
+  'services'    => array(
+    'models' => array(
+      //mautic.mauticweezevent.model.api
+      'mautic.mauticweezevent.model.api' => array(
+        'class' => 'MauticPlugin\MauticWeezeventBundle\Model\APIModel',
+      ),
+    ),
+  ),
+
 // les routes
   'routes'   => array(
     'main' => array(
@@ -57,7 +67,7 @@ Pensser à le <a href="/plugins/weezevent">configurer</a>',
       'main' => array(
           'plugin.weezevent.menu' => array(
               'route'     => 'plugin_weezevent',
-              'iconClass' => 'fa-gears',
+              'iconClass' => 'fa-calendar-check',
               'access'    => 'admin',
               'checks'    => array(
                   'parameters' => array(

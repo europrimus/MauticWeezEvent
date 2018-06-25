@@ -3,9 +3,10 @@
 
 namespace MauticPlugin\MauticWeezeventBundle\Model;
 
-use Mautic\CoreBundle\Model\CommonModel;
+//use Mautic\CoreBundle\Model\CommonModel;
+use \Mautic\CoreBundle\Model\AbstractCommonModel;
 
-class weezeventModel extends CommonModel
+class APIModel extends AbstractCommonModel
 {
     private $api_token='';
     private $api_key = '';
@@ -15,9 +16,9 @@ class weezeventModel extends CommonModel
              "content-type: application/x-www-form-urlencoded;charset=utf-8"
           );
 
-    public function __construct__()
+    public function __construct()
     {
-      $this->api_token= getToken();
+      $this->api_token=$this->getToken();
     }
 
     /**
@@ -38,6 +39,7 @@ class weezeventModel extends CommonModel
 // on execute
       $res = curl_exec($ch);
       $res = json_decode($res);
+      dump($res);
       return $res->accessToken;
     }
 
