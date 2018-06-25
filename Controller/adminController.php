@@ -1,5 +1,5 @@
 <?php
-// plugins/HelloWorldBundle/Controller/DefaultController.php
+// plugins/MauticWeezeventBundle/Controller/DefaultController.php
 
 namespace MauticPlugin\MauticWeezeventBundle\Controller;
 

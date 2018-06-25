@@ -12,8 +12,8 @@ return array(
   'name'        => 'Weezevent',
   'description' => 'Récupération de donnée weezevent.com
 ---
-Plus d\'inf sur <a href="https://github.com/europrimus/MauticWeezEvent">github</a>.
-Pensser a le <a href="/plugins/weezevent">configuration</a>',
+Plus d info sur <a href="https://github.com/europrimus/MauticWeezEvent">github</a>.
+Pensser à le <a href="/plugins/weezevent">configurer</a>',
   'version'     => '0.1',
   'author'      => 'Didier et Geoffrey',
 
@@ -29,8 +29,12 @@ Pensser a le <a href="/plugins/weezevent">configuration</a>',
   'routes'   => array(
     'main' => array(
       'plugin_weezevent_config' => array(
-        'path'       => '/plugins/weezevent',
+        'path'       => '/weezevent/admin',
         'controller' => 'MauticWeezeventBundle:admin:config',
+      ),
+      'plugin_weezevent' => array(
+        'path'       => '/weezevent',
+        'controller' => 'MauticWeezeventBundle:event:liste',
       ),
     ),
   ),
@@ -40,6 +44,19 @@ Pensser a le <a href="/plugins/weezevent">configuration</a>',
       'admin' => array(
           'plugin.weezevent.admin' => array(
               'route'     => 'plugin_weezevent_config',
+              'iconClass' => 'fa-gears',
+              'access'    => 'admin',
+              'checks'    => array(
+                  'parameters' => array(
+                      'Weezevent_enabled' => true
+                  )
+              ),
+              'priority'  => 60
+          )
+      ),
+      'main' => array(
+          'plugin.weezevent.menu' => array(
+              'route'     => 'plugin_weezevent',
               'iconClass' => 'fa-gears',
               'access'    => 'admin',
               'checks'    => array(
