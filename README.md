@@ -36,6 +36,8 @@ La [doc officielle](https://developer.mautic.org/?php#plugins)
 [Comment développer un plugin Mautic](https://www.hachther.com/fr/blog/commencez-votre-plugin-mautic-helloword/)
 très succin ...
 
+exemple de plugin : [InfoBipSms](https://github.com/abreuleonel/InfoBipSmsBundle)
+
 ## Ce plugin
 ### la configuration
 pour allez récupérer les infos de weezevent  

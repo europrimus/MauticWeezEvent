@@ -40,7 +40,12 @@ class APIModel extends AbstractCommonModel
       $res = curl_exec($ch);
       $res = json_decode($res);
       dump($res);
-      return $res->accessToken;
+      if( property_exists($res, "accessToken") ){
+        return $res->accessToken;
+      }else{
+        return false;
+      }
+
     }
 
 

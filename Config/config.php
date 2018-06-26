@@ -13,16 +13,17 @@ return array(
   'description' => 'Récupération de donnée weezevent.com
 ---
 Plus d info sur <a href="https://github.com/europrimus/MauticWeezEvent">github</a>.
+<br>
 Pensser à le <a href="/plugins/weezevent">configurer</a>',
-  'version'     => '0.1',
+  'version'     => '0.7',
   'author'      => 'Didier et Geoffrey',
 
 // les parametre de configuration
   'parameters' => array(
-      'Weezevent_enabled' => true,
-      'Weezevent_login' => '',
-      'Weezevent_password' => '',
-      'Weezevent_API_key' => '',
+      'Weezevent_enabled' => false,
+      'Weezevent_login' => 'login',
+      'Weezevent_password' => 'password',
+      'Weezevent_API_key' => 'API Key',
   ),
 
 // services
@@ -30,18 +31,39 @@ Pensser à le <a href="/plugins/weezevent">configurer</a>',
     'models' => array(
       //mautic.mauticweezevent.model.api
       'mautic.mauticweezevent.model.api' => array(
-        'class' => 'MauticPlugin\MauticWeezeventBundle\Model\APIModel',
+        'class' => MauticPlugin\MauticWeezeventBundle\Model\APIModel::class,
       ),
     ),
+    'forms' => [
+      'mautic.form.type.mauticweezevent.config' => [
+        'class' => MauticPlugin\MauticWeezeventBundle\Form\Type\ConfigType::class,
+        'alias' => 'weezevent_config',
+      ],
+    ],
   ),
 
 // les routes
   'routes'   => array(
     'main' => array(
+  // la configuration
       'plugin_weezevent_config' => array(
         'path'       => '/weezevent/admin',
         'controller' => 'MauticWeezeventBundle:admin:config',
+        'method'     => 'GET',
       ),
+      'plugin_weezevent_config_store' => array(
+        'path'       => '/weezevent/admin',
+        'controller' => 'MauticWeezeventBundle:admin:store',
+/*
+        'requirements' => [ 'login' => '[.*]',
+          'pass' => '[.*]',
+          'APIkey' => '[.*]',
+        ],
+*/
+        'method'     => 'POST',
+      ),
+
+  // les evenements
       'plugin_weezevent' => array(
         'path'       => '/weezevent',
         'controller' => 'MauticWeezeventBundle:event:liste',
@@ -54,11 +76,10 @@ Pensser à le <a href="/plugins/weezevent">configurer</a>',
       'admin' => array(
           'plugin.weezevent.admin' => array(
               'route'     => 'plugin_weezevent_config',
-              'iconClass' => 'fa-gears',
+              'iconClass' => 'fa-ticket',
               'access'    => 'admin',
               'checks'    => array(
                   'parameters' => array(
-                      'Weezevent_enabled' => true
                   )
               ),
               'priority'  => 60
@@ -67,7 +88,7 @@ Pensser à le <a href="/plugins/weezevent">configurer</a>',
       'main' => array(
           'plugin.weezevent.menu' => array(
               'route'     => 'plugin_weezevent',
-              'iconClass' => 'fa-calendar-check',
+              'iconClass' => 'fa-calendar',
               'access'    => 'admin',
               'checks'    => array(
                   'parameters' => array(
