@@ -13,13 +13,18 @@ $view['slots']->set('headerTitle', $titre);
 ?>
 
 <div class="weezevent-content">
-<img src="<?php echo $view['assets']->getUrl('plugins/MauticWeezeventBundle/Assets/img/weezevent-logo.png') ?>" />
+  <?php $view['slots']->output('_content'); ?>
+  <img src="<?php echo $view['assets']->getUrl('plugins/MauticWeezeventBundle/Assets/img/weezevent-logo.png') ?>" /><br>
   <?php
-     foreach ( $events as $event ){
-       if( $count <= 10 ){
-           var_dump($event);
-           $count++;
-       }
+    $count=0;
+    //dump($events);
+    foreach ( $events as $event ){
+      if( $count <= 10 ){
+        echo "<h2>element $count</h2><pre>";
+        dump($event);
+        echo "</pre>";
+        $count++;
+      }
     }
   ?>
 </div>

@@ -3,8 +3,7 @@
 
 namespace MauticPlugin\MauticWeezeventBundle\Model;
 
-//use Mautic\CoreBundle\Model\CommonModel;
-use \Mautic\CoreBundle\Model\AbstractCommonModel;
+use Mautic\CoreBundle\Model\AbstractCommonModel;
 
 class APIModel extends AbstractCommonModel
 {
@@ -18,8 +17,26 @@ class APIModel extends AbstractCommonModel
 
     public function __construct()
     {
+    }
+    public function connect($login,$pass,$key)
+    {
+      $this->api_email=$login;
+      $this->api_password=$pass;
+      $this->api_key=$key;
       $this->api_token=$this->getToken();
     }
+
+
+    private function initCurl($url)
+    {
+// on prepare la requette
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
+      return $ch;
+    }
+
 
     /**
      * Get access token
@@ -39,7 +56,6 @@ class APIModel extends AbstractCommonModel
 // on execute
       $res = curl_exec($ch);
       $res = json_decode($res);
-      dump($res);
       if( property_exists($res, "accessToken") ){
         return $res->accessToken;
       }else{
@@ -48,25 +64,13 @@ class APIModel extends AbstractCommonModel
 
     }
 
-
-    private function initCurl($url)
-    {
-// on prepare la requette
-      $ch = curl_init($url);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
-      return $ch;
-    }
-
     public function getEvents()
     {
-
       $url = 'https://api.weezevent.com/events?&api_key='.$this->api_key.
-        '&access_token='.$this->api_token.'&include_without_sales=false';
+        '&access_token='.$this->api_token.
+        '&include_without_sales=false';
       $ch=$this->initCurl($url);
-      $events = curl_exec($curl);
-      $count = 0;
+      $events = curl_exec($ch);
       $events = json_decode($events);
       return $events;
     }

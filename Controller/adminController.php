@@ -10,10 +10,20 @@ class adminController extends FormController
 {
 // affiche la configuration
   public function configAction(){
+// parameters from Config/config.php
     $config = $this->get('mautic.helper.core_parameters');
+    dump($config);
     $login = $config->getParameter('Weezevent_login');
     $pass = $config->getParameter('Weezevent_password');
     $APIkey = $config->getParameter('Weezevent_API_key');
+
+// config
+    $configHelper = $this->get('mautic.helper.bundle');
+    //dump($configHelper);
+    $parameters = $configHelper->getBundleConfig('MauticWeezeventBundle', 'parameters', true);
+dump($parameters);
+    //$pass = $configHelper->getBundleConfig('MauticWeezeventBundle', 'Weezevent_password', true);
+    //$APIkey = $configHelper->getBundleConfig('MauticWeezeventBundle', 'Weezevent_API_key', true);
 // on génère la vue
     return $this->delegateView(
       array(
@@ -40,10 +50,10 @@ class adminController extends FormController
     $APIkey = $this->request->request->get("APIkey");
 // read config
     $config = $this->get('mautic.helper.core_parameters');
-    dump( $config );
+    //dump( $config );
 
 // Set updated values
-    $config->setConfig();
+    //$config->setConfig();
     return $this->configAction();
   }
 }

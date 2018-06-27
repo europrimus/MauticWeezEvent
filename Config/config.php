@@ -15,12 +15,13 @@ return array(
 Plus d info sur <a href="https://github.com/europrimus/MauticWeezEvent">github</a>.
 <br>
 Pensser à le <a href="/plugins/weezevent">configurer</a>',
-  'version'     => '0.7',
+  'version'     => '0.9',
   'author'      => 'Didier et Geoffrey',
 
 // les parametre de configuration
   'parameters' => array(
-      'Weezevent_enabled' => false,
+      'Weezevent_enabled' => true,
+// identifiant weezevent et cles API
       'Weezevent_login' => 'login',
       'Weezevent_password' => 'password',
       'Weezevent_API_key' => 'API Key',
@@ -28,16 +29,27 @@ Pensser à le <a href="/plugins/weezevent">configurer</a>',
 
 // services
   'services'    => array(
+    // pour tuiliser le model API
     'models' => array(
       //mautic.mauticweezevent.model.api
       'mautic.mauticweezevent.model.api' => array(
         'class' => MauticPlugin\MauticWeezeventBundle\Model\APIModel::class,
+        'arguments' => [],
       ),
     ),
+
+/*
     'forms' => [
       'mautic.form.type.mauticweezevent.config' => [
         'class' => MauticPlugin\MauticWeezeventBundle\Form\Type\ConfigType::class,
         'alias' => 'weezevent_config',
+      ],
+    ],
+*/
+    'integrations' =>[
+      'mautic.integration.weezevent' => [
+        'class' => 'MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration',
+        'arguments' => [],
       ],
     ],
   ),

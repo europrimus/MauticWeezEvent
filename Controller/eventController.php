@@ -9,15 +9,24 @@ class eventController extends FormController
 {
 // liste les événements
   public function listeAction(){
-    $weezeventObj = $this->getModel('mauticweezevent.api');
-//$weezeventObj = $this->getModel('weezeventAPI');
-    dump($weezeventObj);
-    //$weezeventObj = new weezeventModel();
-    $events = $weezeventObj->getEvents();
+
+// recupération de la configuration
+    $config = $this->get('mautic.helper.core_parameters');
+    $api_email=     $config->getParameter('Weezevent_login');
+    $api_password=  $config->getParameter('Weezevent_password');
+    $api_key=       $config->getParameter('Weezevent_API_key');
+// recuperation du model
+    $weezeventModel = $this->getModel('mauticweezevent.api');
+// connexion a l'api
+    $weezeventModel->connect( $api_email,$api_password,$api_key );
+// recuperation des evenements
+    $events = $weezeventModel->getEvents();
+
+    //$events=["1",2,"3","4"];
     return $this->delegateView(
       array(
         'viewParameters'  => array(
-            'events'   => $events,
+            'events'   => $events->events,
         ),
         'contentTemplate' => 'MauticWeezeventBundle:event:liste.html.php',
         'passthroughVars' => array(
