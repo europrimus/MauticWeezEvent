@@ -36,9 +36,18 @@ La [doc officielle](https://developer.mautic.org/?php#plugins)
 [Comment développer un plugin Mautic](https://www.hachther.com/fr/blog/commencez-votre-plugin-mautic-helloword/)
 très succin ...
 
-exemple de plugin : [InfoBipSms](https://github.com/abreuleonel/InfoBipSmsBundle)
+exemple de plugin : [MauticTestConfigBundle](https://github.com/europrimus/MauticTestConfigBundle)
 
 ## Ce plugin
+### Installation
+* Télécharger ce dépot  
+* Décompresser l'archive dans le répertoire plugin de Mautic  
+* Dans Mautic:
+    - Aller dans le menu **admin->Plugins**
+    - Faire **Install/Upgrade plugins**
+    - Le plugin doit apparètre dans la liste
+    - Cliquer dessus pour le configurer
+
 ### la configuration
 pour allez récupérer les infos de weezevent  
 - identifiant

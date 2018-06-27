@@ -18,6 +18,7 @@ class APIModel extends AbstractCommonModel
     public function __construct()
     {
     }
+
     public function connect($login,$pass,$key)
     {
       $this->api_email=$login;
@@ -62,6 +63,15 @@ class APIModel extends AbstractCommonModel
         return false;
       }
 
+    }
+
+    public function isConnected()
+    {
+      if($this->api_token)      {
+        return true;
+      }else{
+        return false;
+      }
     }
 
     public function getEvents()

@@ -11,22 +11,34 @@ class eventController extends FormController
   public function listeAction(){
 
 // recupération de la configuration
-    $config = $this->get('mautic.helper.core_parameters');
-    $api_email=     $config->getParameter('Weezevent_login');
-    $api_password=  $config->getParameter('Weezevent_password');
-    $api_key=       $config->getParameter('Weezevent_API_key');
+// config from integration
+    /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $helper */
+    $helper = $this->factory->getHelper('integration');
+    /** @var  MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration $Weezevent */
+    $Weezevent = $helper->getIntegrationObject('Weezevent');
+//on récupère les valeurs
+    $keys = $Weezevent->getKeys();
+    $login = $keys["Weezevent_login"];
+    $pass = $keys["Weezevent_password"];
+    $APIkey = $keys["Weezevent_API_key"];
 // recuperation du model
     $weezeventModel = $this->getModel('mauticweezevent.api');
 // connexion a l'api
-    $weezeventModel->connect( $api_email,$api_password,$api_key );
+    $weezeventModel->connect( $login,$pass,$APIkey );
 // recuperation des evenements
-    $events = $weezeventModel->getEvents();
+    if($weezeventModel->isConnected()){
+      $events = $weezeventModel->getEvents();
+      $events = $events->events;
+    }else{
+      // à traduire
+      $events = "Impossible de ce connecter à Weezevent. Vérifier votre configuration.";
+    }
 
     //$events=["1",2,"3","4"];
     return $this->delegateView(
       array(
         'viewParameters'  => array(
-            'events'   => $events->events,
+            'events'   => $events,
         ),
         'contentTemplate' => 'MauticWeezeventBundle:event:liste.html.php',
         'passthroughVars' => array(

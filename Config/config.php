@@ -22,9 +22,11 @@ Pensser à le <a href="/plugins/weezevent">configurer</a>',
   'parameters' => array(
       'Weezevent_enabled' => true,
 // identifiant weezevent et cles API
+/*
       'Weezevent_login' => 'login',
       'Weezevent_password' => 'password',
       'Weezevent_API_key' => 'API Key',
+*/
   ),
 
 // services

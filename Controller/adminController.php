@@ -10,20 +10,17 @@ class adminController extends FormController
 {
 // affiche la configuration
   public function configAction(){
-// parameters from Config/config.php
-    $config = $this->get('mautic.helper.core_parameters');
-    dump($config);
-    $login = $config->getParameter('Weezevent_login');
-    $pass = $config->getParameter('Weezevent_password');
-    $APIkey = $config->getParameter('Weezevent_API_key');
+// config from integration
+    /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $helper */
+    $helper = $this->factory->getHelper('integration');
+    /** @var  MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration $Weezevent */
+    $Weezevent = $helper->getIntegrationObject('Weezevent');
+//on récupère les valeurs
+    $keys = $Weezevent->getKeys();
+    $login = $keys["Weezevent_login"];
+    $pass = $keys["Weezevent_password"];
+    $APIkey = $keys["Weezevent_API_key"];
 
-// config
-    $configHelper = $this->get('mautic.helper.bundle');
-    //dump($configHelper);
-    $parameters = $configHelper->getBundleConfig('MauticWeezeventBundle', 'parameters', true);
-dump($parameters);
-    //$pass = $configHelper->getBundleConfig('MauticWeezeventBundle', 'Weezevent_password', true);
-    //$APIkey = $configHelper->getBundleConfig('MauticWeezeventBundle', 'Weezevent_API_key', true);
 // on génère la vue
     return $this->delegateView(
       array(
