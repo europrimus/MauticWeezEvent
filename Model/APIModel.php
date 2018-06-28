@@ -1,5 +1,5 @@
 <?php
-// plugins/MauticWeezeventBundle/Model/weezeventAPI.php
+// plugins/MauticWeezeventBundle/Model/APIModel.php
 
 namespace MauticPlugin\MauticWeezeventBundle\Model;
 
@@ -14,11 +14,11 @@ class APIModel extends AbstractCommonModel
     private $headers = array(
              "content-type: application/x-www-form-urlencoded;charset=utf-8"
           );
-
+/*
     public function __construct()
     {
     }
-
+*/
     public function connect($login,$pass,$key)
     {
       $this->api_email=$login;
@@ -82,6 +82,6 @@ class APIModel extends AbstractCommonModel
       $ch=$this->initCurl($url);
       $events = curl_exec($ch);
       $events = json_decode($events);
-      return $events;
+      return $events->events;
     }
 }

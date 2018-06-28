@@ -15,7 +15,7 @@ return array(
 Plus d info sur <a href="https://github.com/europrimus/MauticWeezEvent">github</a>.
 <br>
 Pensser à le <a href="/plugins/weezevent">configurer</a>',
-  'version'     => '0.9',
+  'version'     => '0.11',
   'author'      => 'Didier et Geoffrey',
 
 // les parametre de configuration
@@ -68,12 +68,6 @@ Pensser à le <a href="/plugins/weezevent">configurer</a>',
       'plugin_weezevent_config_store' => array(
         'path'       => '/weezevent/admin',
         'controller' => 'MauticWeezeventBundle:admin:store',
-/*
-        'requirements' => [ 'login' => '[.*]',
-          'pass' => '[.*]',
-          'APIkey' => '[.*]',
-        ],
-*/
         'method'     => 'POST',
       ),
 
@@ -81,6 +75,11 @@ Pensser à le <a href="/plugins/weezevent">configurer</a>',
       'plugin_weezevent' => array(
         'path'       => '/weezevent',
         'controller' => 'MauticWeezeventBundle:event:liste',
+      ),
+      // pour tester
+      'plugin_weezevent_contacts' => array(
+        'path'       => '/weezevent/contact',
+        'controller' => 'MauticWeezeventBundle:event:MultiContacts',
       ),
     ),
   ),

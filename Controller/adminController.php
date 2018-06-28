@@ -21,6 +21,8 @@ class adminController extends FormController
     $pass = $keys["Weezevent_password"];
     $APIkey = $keys["Weezevent_API_key"];
 
+// teste
+
 // on génère la vue
     return $this->delegateView(
       array(
@@ -38,7 +40,7 @@ class adminController extends FormController
       )
     );
   }
-
+/*
 // enregistre la configuration
   public function storeAction(){
 // on récupère les valeurs du formulaire
@@ -53,4 +55,5 @@ class adminController extends FormController
     //$config->setConfig();
     return $this->configAction();
   }
+*/
 }

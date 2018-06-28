@@ -28,7 +28,7 @@ $view['slots']->set('headerTitle', $titre);
         }
       }
     }else{
-      echo "<p>$events</p>";
+      echo "<p>".$view['translator']->trans('plugin.weezevent.event.error.api')."</p>";
     }
   ?>
 </div>
