@@ -98,14 +98,18 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
 
 // action automatique pour cron
   public function autoAction(){
+    $nbImport=0;
+    $message=[];
+    // recupération des évènements
     $events = $this->lastDayEvents();
     $weezeventModel = $this->connexion();
     foreach ($events as  $event) {
       // recuperation des tickets
       if($weezeventModel->isConnected()){
         $tickets = $weezeventModel->getTickets($event->id);
+        $message[]="Connexion résussit";
       }else{
-        // à traduire
+        $message[]="Impossible de ce connecter";
         $tickets = false;
       }
       //parcour de la liste
@@ -117,9 +121,26 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
           "email" => $participants->owner->email,
           "weezevent" => [$event->name],
         ]);
+        $nbImport++;
       }
     }
-    return "ok";
+    // return view
+    return $this->delegateView(
+            array(
+                'viewParameters'  => array(
+                    'message'   => $message,
+                    'nombre'   => $nbImport,
+                ),
+                'contentTemplate' => 'MauticWeezeventBundle:admin:auto.json.php',
+                /*
+                'passthroughVars' => array(
+                    'activeLink'    => 'plugin_helloworld_world',
+                    'route'         => $this->generateUrl('plugin_helloworld_world', array('world' => $world)),
+                    'mauticContent' => 'helloWorldDetails'
+                )
+                */
+            )
+        );
   }
 
   // recherche par date

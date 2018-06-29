@@ -15,7 +15,7 @@ return array(
 Plus d info sur <a href="https://github.com/europrimus/MauticWeezEvent">github</a>.
 <br>
 Pensser à le <a href="/plugins/weezevent">configurer</a>',
-  'version'     => '0.11',
+  'version'     => '0.12',
   'author'      => 'Didier et Geoffrey',
 
 // les parametre de configuration
