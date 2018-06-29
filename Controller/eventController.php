@@ -63,16 +63,10 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
     );
   } // end listeAction()
 
-// recherche par date
-  public function lastDayEvents(){
-    $date = date('Y-m-d',strtotime("-1 days"));
-    return getEventByDate($date);
-  }
-
   public function listeTicketsAction($idEvent){
     $nomEvent= $this->request->query->get("nomEvent");
     $weezeventModel = $this->connexion();
-// recuperation des evenements
+// recuperation des tickets
     if($weezeventModel->isConnected()){
       $tickets = $weezeventModel->getTickets($idEvent);
     }else{
@@ -101,6 +95,46 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
     // Redirect to contacts liste
     return $this->redirectToRoute('mautic_contact_index');
   }
+
+// action automatique pour cron
+  public function autoAction(){
+    $events = $this->lastDayEvents();
+    $weezeventModel = $this->connexion();
+    foreach ($events as  $event) {
+      // recuperation des tickets
+      if($weezeventModel->isConnected()){
+        $tickets = $weezeventModel->getTickets($event->id);
+      }else{
+        // à traduire
+        $tickets = false;
+      }
+      //parcour de la liste
+      foreach ($tickets as $participants) {
+        // ajout aux contacts
+        $this->addOrUpdateAction([
+          "firstname" => $participants->owner->first_name,
+          "lastname" => $participants->owner->last_name,
+          "email" => $participants->owner->email,
+          "weezevent" => [$event->name],
+        ]);
+      }
+    }
+    return "ok";
+  }
+
+  // recherche par date
+    public function lastDayEvents(){
+      $date = date('Y-m-d',strtotime("-1 days"));
+      //$date = date('Y-m-d');
+
+      $weezeventModel = $this->connexion();
+  // recuperation des evenements
+      if($weezeventModel->isConnected()){
+        return $weezeventModel->getEventByDate($date,5);
+      }else{
+        return false;
+      }
+    }
 
 
   /* ajoute ou met à jour un contact

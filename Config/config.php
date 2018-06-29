@@ -58,6 +58,13 @@ Pensser à le <a href="/plugins/weezevent">configurer</a>',
 
 // les routes
   'routes'   => array(
+    'public' => [
+      'plugin_weezevent_auto' => array(
+        'path'       => '/weezevent/auto',
+        'controller' => 'MauticWeezeventBundle:event:auto',
+        'method'     => 'GET',
+      ),
+      ],
     'main' => array(
   // la configuration
       'plugin_weezevent_config' => array(
