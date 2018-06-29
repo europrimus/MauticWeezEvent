@@ -30,10 +30,12 @@ return array(
         'class' => 'MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration',
         'arguments' => [],
       ],
+      /*
       'mautic.integration.weezevent_mapping' => [
         'class' => 'MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration',
         'arguments' => [],
       ],
+      */
     ],
   ),
 
@@ -92,7 +94,7 @@ return array(
           'plugin.weezevent.menu' => array(
               'parent' => 'mautic.core.components',
               'route'     => 'plugin_weezevent',
-              'iconClass' => 'fa-calendar',
+              //'iconClass' => 'fa-calendar',
               'access'    => 'admin',
               'checks'    => array(
                 'integration' => [

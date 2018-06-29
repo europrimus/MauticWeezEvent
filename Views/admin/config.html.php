@@ -22,5 +22,7 @@ $view['slots']->set('headerTitle', $titre);
       <dd><?=$pass?></dd>
       <dt><?=$view['translator']->trans('plugin.weezevent.config_APIkey');?> : </dt>
       <dd><?=$APIkey?></dd>
+      <dt><?=$view['translator']->trans('plugin.weezevent.config_cron');?> : </dt>
+      <dd><?php echo $view["router"]->generate('plugin_weezevent_auto',array(), true); // /weezevent/auto ?></dd>
     </dl>
 </div>
