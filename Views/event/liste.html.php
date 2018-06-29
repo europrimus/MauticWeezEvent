@@ -22,7 +22,7 @@ $view['slots']->set('headerTitle', $titre);
       foreach ( $events as $event ){
         if( $count <= 10 ){
           echo '<li style="margin: 10px;">'. $event->name .' -- <a href="'.$view['router']->generate('plugin_weezevent_tickets',
-            array('idEvent' => $event->id, 'nomEvent'=> $event->name )).'" ><button>Afficher + Importer les contacts </button></a>
+            array('idEvent' => $event->id, 'nomEvent'=> $event->name )).'" ><button> Importer les contacts </button></a>
           </li>';
           $count++;
         }
