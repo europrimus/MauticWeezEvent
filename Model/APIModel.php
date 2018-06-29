@@ -76,12 +76,35 @@ class APIModel extends AbstractCommonModel
 
     public function getEvents()
     {
-      $url = 'https://api.weezevent.com/events?&api_key='.$this->api_key.
+      $url = 'https://api.weezevent.com/events?api_key='.$this->api_key.
         '&access_token='.$this->api_token.
         '&include_without_sales=false';
       $ch=$this->initCurl($url);
       $events = curl_exec($ch);
       $events = json_decode($events);
       return $events->events;
+    }
+
+    public function getEventByDate($date,$maxResult = 1)
+    {
+      $url = 'https://api.weezevent.com/event/search?api_key='.$this->api_key.
+        '&access_token='.$this->api_token.
+        '&date='.$date.
+        '&max_result='.$maxResult;
+      $ch=$this->initCurl($url);
+      $events = curl_exec($ch);
+      $events = json_decode($events);
+      return $events->events;
+    }
+
+    public function getTickets($eventId)
+    {
+      $url = 'https://api.weezevent.com/participant/list?api_key='.$this->api_key.
+        '&access_token='.$this->api_token.
+        '&id_event[]='.$eventId;
+      $ch=$this->initCurl($url);
+      $tickets = curl_exec($ch);
+      $tickets = json_decode($tickets);
+      return $tickets->participants;
     }
 }

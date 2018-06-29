@@ -65,22 +65,33 @@ Pensser à le <a href="/plugins/weezevent">configurer</a>',
         'controller' => 'MauticWeezeventBundle:admin:config',
         'method'     => 'GET',
       ),
+/*
       'plugin_weezevent_config_store' => array(
         'path'       => '/weezevent/admin',
         'controller' => 'MauticWeezeventBundle:admin:store',
         'method'     => 'POST',
       ),
-
+*/
   // les evenements
       'plugin_weezevent' => array(
         'path'       => '/weezevent',
         'controller' => 'MauticWeezeventBundle:event:liste',
       ),
+      'plugin_weezevent_tickets' => array(
+        'path'       => '/weezevent/{idEvent}',
+        'controller' => 'MauticWeezeventBundle:event:listeTickets',
+        'requirements' => array(
+            'idEvent' => '[0-9]*'
+            //'nomEvent' => '(.*)'
+        )
+      ),
+/*
       // pour tester
       'plugin_weezevent_contacts' => array(
         'path'       => '/weezevent/contact',
         'controller' => 'MauticWeezeventBundle:event:MultiContacts',
       ),
+*/
     ),
   ),
 
@@ -100,6 +111,7 @@ Pensser à le <a href="/plugins/weezevent">configurer</a>',
       ),
       'main' => array(
           'plugin.weezevent.menu' => array(
+              'parent' => 'mautic.core.components',
               'route'     => 'plugin_weezevent',
               'iconClass' => 'fa-calendar',
               'access'    => 'admin',

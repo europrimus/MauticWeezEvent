@@ -15,20 +15,20 @@ $view['slots']->set('headerTitle', $titre);
 <div class="weezevent-content">
   <?php $view['slots']->output('_content'); ?>
   <img src="<?php echo $view['assets']->getUrl('plugins/MauticWeezeventBundle/Assets/img/weezevent-logo.png') ?>" /><br>
+  <ul>
   <?php
     if( is_array($events) ){
       $count=0;
-      //dump($events);
       foreach ( $events as $event ){
         if( $count <= 10 ){
-          echo "<h2>element $count</h2><pre>";
-          dump($event);
-          echo "</pre>";
+          echo '<li><a href="'.$view['router']->generate('plugin_weezevent_tickets',
+            array('idEvent' => $event->id, 'nomEvent'=> $event->name )).'" >'.$event->name.'</a></li>';
           $count++;
         }
       }
     }else{
-      echo "<p>".$view['translator']->trans('plugin.weezevent.event.error.api')."</p>";
+      echo "<li>".$view['translator']->trans('plugin.weezevent.event.error.api')."</li>";
     }
   ?>
+  </ul>
 </div>

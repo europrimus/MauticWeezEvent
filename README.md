@@ -56,10 +56,9 @@ pour allez récupérer les infos de weezevent
 
 ### les infos récupérer
 - participant :
-  - nom preénom
-  - Entreprise
+  - nom
+  - prénom
   - e-mail
 - évènement :
   - nom
   - date
-  - catégorie

@@ -8,30 +8,37 @@ use Mautic\LeadBundle\Entity\Lead;
 
 class eventController extends FormController
 {
+/*
 private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'companies', 'position',
     'address1', 'address2', 'city', 'state', 'zipcode', 'country',
     'attribution', 'attribution_date',
     'mobile', 'phone', 'points', 'fax',
     'website', 'stage', 'owner', 'tags'];
+*/
+
+ private function connexion(){
+   // recupération de la configuration
+   // config from integration
+       /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $helper */
+       $helper = $this->factory->getHelper('integration');
+       /** @var  MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration $Weezevent */
+       $Weezevent = $helper->getIntegrationObject('Weezevent');
+   //on récupère les valeurs
+       $keys = $Weezevent->getKeys();
+       $login = $keys["Weezevent_login"];
+       $pass = $keys["Weezevent_password"];
+       $APIkey = $keys["Weezevent_API_key"];
+
+   // recuperation du model
+       $weezeventModel = $this->getModel('mauticweezevent.api');
+   // connexion a l'api
+       $weezeventModel->connect( $login,$pass,$APIkey );
+       return $weezeventModel;
+  }
 
 // liste les événements
   public function listeAction(){
-// recupération de la configuration
-// config from integration
-    /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $helper */
-    $helper = $this->factory->getHelper('integration');
-    /** @var  MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration $Weezevent */
-    $Weezevent = $helper->getIntegrationObject('Weezevent');
-//on récupère les valeurs
-    $keys = $Weezevent->getKeys();
-    $login = $keys["Weezevent_login"];
-    $pass = $keys["Weezevent_password"];
-    $APIkey = $keys["Weezevent_API_key"];
-
-// recuperation du model
-    $weezeventModel = $this->getModel('mauticweezevent.api');
-// connexion a l'api
-    $weezeventModel->connect( $login,$pass,$APIkey );
+    $weezeventModel = $this->connexion();
 // recuperation des evenements
     if($weezeventModel->isConnected()){
       $events = $weezeventModel->getEvents();
@@ -56,18 +63,38 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
     );
   } // end listeAction()
 
-  // création de contact pour teste
-  public function MultiContactsAction(){
-    $contactListe=[];
-    for ($i=0; $i < 5; $i++) {
-      $contactListe[]=[
-            "firstname" => md5(random_bytes(10)),
-            "lastname" => md5(random_bytes(10)),
-            "email" => "nom_prenom@mail.fr", //md5(random_bytes(10))."@mail.fr",
-            "weezevent" => ["BFC","newtag"],
-          ];
-    }
+// recherche par date
+  public function lastDayEvents(){
+    $date = date('Y-m-d',strtotime("-1 days"));
+    return getEventByDate($date);
+  }
 
+  public function listeTicketsAction($idEvent){
+    $nomEvent= $this->request->query->get("nomEvent");
+    $weezeventModel = $this->connexion();
+// recuperation des evenements
+    if($weezeventModel->isConnected()){
+      $tickets = $weezeventModel->getTickets($idEvent);
+    }else{
+      // à traduire
+      $tickets = false;
+    }
+    //parcour de la liste
+    foreach ($tickets as $participants) {
+      // ajout aux contacts
+      $this->addOrUpdateAction([
+        "firstname" => $participants->owner->first_name,
+        "lastname" => $participants->owner->last_name,
+        "email" => $participants->owner->email,
+        "weezevent" => [$nomEvent],
+      ]);
+    }
+    // Redirect to contacts liste
+    return $this->redirectToRoute('mautic_contact_index');
+  }
+
+  // création de contact pour teste
+  public function MultiContactsAction(array $contactListe){
     foreach ($contactListe as $contactInfo) {
       $this->addOrUpdateAction($contactInfo);
     }
@@ -104,11 +131,10 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
             $leadId // If a currently tracked lead, ignore this ID when searching for duplicates
         );
         if (!empty($existingLeads)) {
-            // Existing found so merge the two leads
-            //$lead = $leadModel->mergeLeads($lead, $existingLeads[0]);
+            // Existing found so use it
             $lead = $existingLeads[0];
         }else{
-          // generate a completely new lead with
+          // generate a completely new lead
           $lead = new Lead();
           $lead->setNewlyCreated(true);
         }
