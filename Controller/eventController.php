@@ -172,21 +172,32 @@ $this->em->flush();
   */
   public function addOrUpdateAction(array $contactInfo)
   {
-    //from https://developer.mautic.org/#creating-new-leads
-    $leadModel = $this->getModel('lead');
-    $leadId = null;
-
-  // le mapping
+    // les infos de mapping
     $Weezevent = $this->factory->getHelper('integration')->getIntegrationObject('Weezevent');
     $mapping=$Weezevent->getIntegrationSettings()->getFeatureSettings()["leadFields"];
     $fieldsInfo = $Weezevent->getFormLeadFields();
+
+    // appliquation du mapping
+    $mappedContacts=[];
+    foreach ($contactInfo as $key => $value) {
+      $mappedContacts[$mapping[$key]] = $value;
+      if ( $fieldsInfo[$key]["required"] && empty($value) )
+      {
+        $mappedContacts=[];
+        return false;
+      }
+    }
+
+    //from https://developer.mautic.org/#creating-new-leads
+    $leadModel = $this->getModel('lead');
+    $leadId = null;
 
     // Optionally check for identifier fields to determine if the lead is unique
     $uniqueLeadFields    = $this->getModel('lead.field')->getUniqueIdentiferFields();
     $uniqueLeadFieldData = array();
 
     // Check if unique identifier fields are included
-    $inList = array_intersect_key($contactInfo, $uniqueLeadFields);
+    $inList = array_intersect_key($mappedContacts, $uniqueLeadFields);
 
     foreach ($inList as $k => $v) {
         if (array_key_exists($k, $uniqueLeadFields)) {
@@ -207,21 +218,16 @@ $this->em->flush();
           $lead = new Lead();
           $lead->setNewlyCreated(true);
         }
-    }
 
-    $mappedContacts=[];
-    foreach ($contactInfo as $key => $value) {
-      $mappedContacts[$mapping[$key]] = $value;
-    }
-    //dump($contactInfo);
-    //dump($mappedContacts);
-    // Set the lead's data
-    $leadModel->setFieldValues($lead, $mappedContacts);
-    // ajout de l'évènement dans les tags
-//    $leadModel->setTags($lead, $contactInfo["weezevent"]);
+      // Set the lead's data
+      $leadModel->setFieldValues($lead, $mappedContacts);
+      // ajout de l'évènement dans les tags
+      //$leadModel->setTags($lead, $contactInfo["event"]);
 
-    // Save the entity
-    $leadModel->saveEntity($lead);
+      // Save the entity
+      $leadModel->saveEntity($lead);
+    } // end check leads
+    return true;
   } // end addOrUpdate()
 
 }
