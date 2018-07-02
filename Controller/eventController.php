@@ -213,10 +213,10 @@ $this->em->flush();
     foreach ($contactInfo as $key => $value) {
       $mappedContacts[$mapping[$key]] = $value;
     }
-    dump($contactInfo);
-    dump($mappedContacts);
+    //dump($contactInfo);
+    //dump($mappedContacts);
     // Set the lead's data
-    $leadModel->setFieldValues($lead, $contactInfo);
+    $leadModel->setFieldValues($lead, $mappedContacts);
     // ajout de l'évènement dans les tags
 //    $leadModel->setTags($lead, $contactInfo["weezevent"]);
 
