@@ -11,7 +11,7 @@ return array(
 // informations sur le plugin
   'name'        => 'Weezevent',
   'description' => 'Récupération de donnée weezevent.com',
-  'version'     => '0.25.0',
+  'version'     => '1.0.0',
   'author'      => 'Didier et Geoffrey',
 
 // services
@@ -30,12 +30,6 @@ return array(
         'class' => 'MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration',
         'arguments' => [],
       ],
-      /*
-      'mautic.integration.weezevent_mapping' => [
-        'class' => 'MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration',
-        'arguments' => [],
-      ],
-      */
     ],
   ),
 
