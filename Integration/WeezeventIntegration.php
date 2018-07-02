@@ -49,7 +49,8 @@ class WeezeventIntegration extends AbstractIntegration
       'firstname'  => ['type' => 'string', 'label' => "Nom", 'required' => true ],
       'lastname'   => ['type' => 'string', 'label' => "Prénom", 'required' => true ],
       'email'      => ['type' => 'string', 'label' => "e-mail", 'required' => true ],
-      'event'      => ['type' => 'string', 'label' => "event name", 'required' => false ],
+      'event'      => ['type' => 'string', 'label' => "Nom de l'évènement", 'required' => false ],
+      //'compagny'   => ['type' => 'string', 'label' => "Société", 'required' => false ],
     ];
   }
 

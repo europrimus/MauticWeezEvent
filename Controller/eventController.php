@@ -74,10 +74,18 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
       $tickets = false;
     }
 
-
     //parcour de la liste
     foreach ($tickets as $participants) {
       // ajout aux contacts
+/*
+{#989 ▼
+  +"first_name": ""
+  +"last_name": ""
+  +"email": ""
+  +"comment": ""
+  +"custom_field": ""
+  +"origin": "web"
+*/
       $this->addOrUpdateAction([
         "firstname" => $participants->owner->first_name,
         "lastname" => $participants->owner->last_name,
