@@ -11,7 +11,7 @@ return array(
 // informations sur le plugin
   'name'        => 'Weezevent',
   'description' => 'Récupération de donnée weezevent.com',
-  'version'     => '0.20.0',
+  'version'     => '0.25.0',
   'author'      => 'Didier et Geoffrey',
 
 // services
@@ -63,7 +63,7 @@ return array(
       ),
       'plugin_weezevent_tickets' => array(
         'path'       => '/weezevent/{idEvent}',
-        'controller' => 'MauticWeezeventBundle:event:listeTickets',
+        'controller' => 'MauticWeezeventBundle:event:ImportTickets',
         'requirements' => array(
             'idEvent' => '[0-9]*'
             //'nomEvent' => '(.*)'

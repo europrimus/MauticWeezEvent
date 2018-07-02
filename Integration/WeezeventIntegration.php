@@ -37,18 +37,19 @@ class WeezeventIntegration extends AbstractIntegration
       'Weezevent_API_key' => 'plugin.weezevent.config.Weezevent_API_key',
     ];
   }
-
-    /**
-   * {@inheritdoc}
-   */
-
+/**
+* return array of
+* 'key'  => ['type' => 'string', 'label' => "field name", 'required' => true | false ]
+*
+*  @return array
+*/
   public function getAvailableLeadFields($settings = [])
   {
     return [
-      'firstname'  => ['type' => 'string', 'label' => "firstname", 'required' => true ],
-      'lastname'   => ['type' => 'string', 'label' => "lastname", 'required' => true ],
-      'email'      => ['type' => 'string', 'label' => "email", 'required' => true ],
-      'event'      => ['type' => 'string', 'label' => "event name", 'required' => true ],
+      'firstname'  => ['type' => 'string', 'label' => "Nom", 'required' => true ],
+      'lastname'   => ['type' => 'string', 'label' => "Prénom", 'required' => true ],
+      'email'      => ['type' => 'string', 'label' => "e-mail", 'required' => true ],
+      'event'      => ['type' => 'string', 'label' => "event name", 'required' => false ],
     ];
   }
 

@@ -17,21 +17,21 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
 */
 
  private function connexion(){
-   // recupération de la configuration
-   // config from integration
+  // recupération de la configuration
+  // config from integration
        /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $helper */
        $helper = $this->factory->getHelper('integration');
        /** @var  MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration $Weezevent */
        $Weezevent = $helper->getIntegrationObject('Weezevent');
-   //on récupère les valeurs
+    //on récupère les valeurs
        $keys = $Weezevent->getKeys();
        $login = $keys["Weezevent_login"];
        $pass = $keys["Weezevent_password"];
        $APIkey = $keys["Weezevent_API_key"];
 
-   // recuperation du model
+    // recuperation du model
        $weezeventModel = $this->getModel('mauticweezevent.api');
-   // connexion a l'api
+    // connexion a l'api
        $weezeventModel->connect( $login,$pass,$APIkey );
        return $weezeventModel;
   }
@@ -63,7 +63,7 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
     );
   } // end listeAction()
 
-  public function listeTicketsAction($idEvent){
+  public function ImportTicketsAction($idEvent){
     $nomEvent= $this->request->query->get("nomEvent");
     $weezeventModel = $this->connexion();
 // recuperation des tickets
@@ -73,6 +73,8 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
       // à traduire
       $tickets = false;
     }
+
+
     //parcour de la liste
     foreach ($tickets as $participants) {
       // ajout aux contacts
@@ -80,7 +82,7 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
         "firstname" => $participants->owner->first_name,
         "lastname" => $participants->owner->last_name,
         "email" => $participants->owner->email,
-        "weezevent" => [$nomEvent],
+        "event" => $nomEvent,
       ]);
     }
     // Redirect to contacts liste
@@ -100,6 +102,13 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
   public function autoAction(){
     $nbImport=0;
     $message=[];
+
+    // on regarde si déja executé aujourd'huit
+    /*
+$this->em->persist($this->settings);
+$this->em->flush();
+    */
+
     // recupération des évènements
     $events = $this->lastDayEvents();
     $weezeventModel = $this->connexion();
@@ -119,7 +128,7 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
           "firstname" => $participants->owner->first_name,
           "lastname" => $participants->owner->last_name,
           "email" => $participants->owner->email,
-          "weezevent" => [$event->name],
+          "event" => $event->name,
         ]);
         $nbImport++;
       }
@@ -167,6 +176,11 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
     $leadModel = $this->getModel('lead');
     $leadId = null;
 
+  // le mapping
+    $Weezevent = $this->factory->getHelper('integration')->getIntegrationObject('Weezevent');
+    $mapping=$Weezevent->getIntegrationSettings()->getFeatureSettings()["leadFields"];
+    $fieldsInfo = $Weezevent->getFormLeadFields();
+
     // Optionally check for identifier fields to determine if the lead is unique
     $uniqueLeadFields    = $this->getModel('lead.field')->getUniqueIdentiferFields();
     $uniqueLeadFieldData = array();
@@ -195,10 +209,16 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
         }
     }
 
+    $mappedContacts=[];
+    foreach ($contactInfo as $key => $value) {
+      $mappedContacts[$mapping[$key]] = $value;
+    }
+    dump($contactInfo);
+    dump($mappedContacts);
     // Set the lead's data
     $leadModel->setFieldValues($lead, $contactInfo);
     // ajout de l'évènement dans les tags
-    $leadModel->setTags($lead, $contactInfo["weezevent"]);
+//    $leadModel->setTags($lead, $contactInfo["weezevent"]);
 
     // Save the entity
     $leadModel->saveEntity($lead);
