@@ -47,6 +47,8 @@ exemple de plugin : [MauticTestConfigBundle](https://github.com/europrimus/Mauti
     - Faire **Install/Upgrade plugins**
     - Le plugin doit apparètre dans la liste
     - Cliquer dessus pour le configurer
+* Pour récupérer automatiquement les évènements de la veille, ajouter une tache cron pointant vers
+> mautic.url/weezevent/cron
 
 ### la configuration
 pour allez récupérer les infos de weezevent  
@@ -61,4 +63,4 @@ pour allez récupérer les infos de weezevent
   - e-mail
 - évènement :
   - nom
-  - date
+  - ( date )

@@ -37,7 +37,7 @@ return array(
   'routes'   => array(
     'public' => [
       'plugin_weezevent_auto' => array(
-        'path'       => '/weezevent/auto',
+        'path'       => '/weezevent/cron',
         'controller' => 'MauticWeezeventBundle:event:auto',
         'method'     => 'GET',
       ),
