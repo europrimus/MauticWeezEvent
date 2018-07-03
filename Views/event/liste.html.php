@@ -13,13 +13,23 @@ $view['slots']->set('headerTitle', $titre);
 ?>
 
 <div class="weezevent-content">
-<img src="<?php echo $view['assets']->getUrl('plugins/MauticWeezeventBundle/Assets/img/weezevent-logo.png') ?>" />
+  <?php $view['slots']->output('_content'); ?>
+  <img src="<?php echo $view['assets']->getUrl('plugins/MauticWeezeventBundle/Assets/img/weezevent-logo.png') ?>" /><br>
+  <ul>
   <?php
-     foreach ( $events as $event ){
-       if( $count <= 10 ){
-           var_dump($event);
-           $count++;
-       }
+    if( is_array($events) ){
+      $count=0;
+      foreach ( $events as $event ){
+        if( $count <= 10 ){
+          echo '<li style="margin: 10px;">'. $event->name .' -- <a href="'.$view['router']->generate('plugin_weezevent_tickets',
+            array('idEvent' => $event->id, 'nomEvent'=> $event->name )).'" ><button> Importer les contacts </button></a>
+          </li>';
+          $count++;
+        }
+      }
+    }else{
+      echo "<li>".$view['translator']->trans('plugin.weezevent.event.error.api')."</li>";
     }
   ?>
+  </ul>
 </div>

@@ -36,7 +36,20 @@ La [doc officielle](https://developer.mautic.org/?php#plugins)
 [Comment développer un plugin Mautic](https://www.hachther.com/fr/blog/commencez-votre-plugin-mautic-helloword/)
 très succin ...
 
+exemple de plugin : [MauticTestConfigBundle](https://github.com/europrimus/MauticTestConfigBundle)
+
 ## Ce plugin
+### Installation
+* Télécharger ce dépot  
+* Décompresser l'archive dans le répertoire plugin de Mautic  
+* Dans Mautic:
+    - Aller dans le menu **admin->Plugins**
+    - Faire **Install/Upgrade plugins**
+    - Le plugin doit apparètre dans la liste
+    - Cliquer dessus pour le configurer
+* Pour récupérer automatiquement les évènements de la veille, ajouter une tache cron pointant vers
+> mautic.url/weezevent/cron
+
 ### la configuration
 pour allez récupérer les infos de weezevent  
 - identifiant
@@ -45,10 +58,9 @@ pour allez récupérer les infos de weezevent
 
 ### les infos récupérer
 - participant :
-  - nom prénom
-  - Entreprise
+  - nom
+  - prénom
   - e-mail
 - évènement :
   - nom
-  - date
-  - catégorie
+  - ( date )

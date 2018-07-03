@@ -31,9 +31,6 @@ class MauticWeezeventBundle extends PluginBundleBase
 
   static public function onPluginInstall(Plugin $plugin, MauticFactory $factory, $metadata = null,  $installedSchema = NULL)
   {
-    dump($plugin);
-    dump($factory);
-    dump($metadata);
      if ($metadata !== null) {
          self::installPluginSchema($metadata, $factory);
      }

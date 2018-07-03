@@ -10,31 +10,58 @@
 return array(
 // informations sur le plugin
   'name'        => 'Weezevent',
-  'description' => 'Récupération de donnée weezevent.com
----
-Plus d info sur <a href="https://github.com/europrimus/MauticWeezEvent">github</a>.
-Pensser à le <a href="/plugins/weezevent">configurer</a>',
-  'version'     => '0.1',
+  'description' => 'Récupération de donnée weezevent.com',
+  'version'     => '1.0.0',
   'author'      => 'Didier et Geoffrey',
 
-// les parametre de configuration
-  'parameters' => array(
-      'Weezevent_enabled' => true,
-      'Weezevent_login' => '',
-      'Weezevent_password' => '',
-      'Weezevent_API_key' => '',
+// services
+  'services'    => array(
+    // pour tuiliser le model API
+    'models' => array(
+      //mautic.mauticweezevent.model.api
+      'mautic.mauticweezevent.model.api' => array(
+        'class' => MauticPlugin\MauticWeezeventBundle\Model\APIModel::class,
+        'arguments' => [],
+      ),
+    ),
+
+    'integrations' =>[
+      'mautic.integration.weezevent_config' => [
+        'class' => 'MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration',
+        'arguments' => [],
+      ],
+    ],
   ),
 
 // les routes
   'routes'   => array(
+    'public' => [
+      'plugin_weezevent_auto' => array(
+        'path'       => '/weezevent/cron',
+        'controller' => 'MauticWeezeventBundle:event:auto',
+        'method'     => 'GET',
+      ),
+      ],
     'main' => array(
+  // la configuration
       'plugin_weezevent_config' => array(
         'path'       => '/weezevent/admin',
         'controller' => 'MauticWeezeventBundle:admin:config',
+        'method'     => 'GET',
       ),
+
+  // les evenements
       'plugin_weezevent' => array(
         'path'       => '/weezevent',
         'controller' => 'MauticWeezeventBundle:event:liste',
+      ),
+      'plugin_weezevent_tickets' => array(
+        'path'       => '/weezevent/{idEvent}',
+        'controller' => 'MauticWeezeventBundle:event:ImportTickets',
+        'requirements' => array(
+            'idEvent' => '[0-9]*'
+            //'nomEvent' => '(.*)'
+        )
       ),
     ),
   ),
@@ -43,34 +70,35 @@ Pensser à le <a href="/plugins/weezevent">configurer</a>',
   'menu'     => array(
       'admin' => array(
           'plugin.weezevent.admin' => array(
-              'route'     => 'plugin_weezevent_config',
-              'iconClass' => 'fa-gears',
-              'access'    => 'admin',
-              'checks'    => array(
-                  'parameters' => array(
-                      'Weezevent_enabled' => true
-                  )
-              ),
-              'priority'  => 60
+            //'parent' => 'mautic.core.plugins',
+            'route'     => 'plugin_weezevent_config',
+            'iconClass' => 'fa-ticket',
+            'access'    => 'admin',
+            'checks'    => array(
+              'integration' => [
+                  'Weezevent' => [
+                      'enabled' => true,
+                  ],
+              ],
+            ),
+            'priority'  => 100
           )
       ),
       'main' => array(
           'plugin.weezevent.menu' => array(
+              'parent' => 'mautic.core.components',
               'route'     => 'plugin_weezevent',
-              'iconClass' => 'fa-gears',
+              //'iconClass' => 'fa-calendar',
               'access'    => 'admin',
               'checks'    => array(
-                  'parameters' => array(
-                      'Weezevent_enabled' => true
-                  )
+                'integration' => [
+                    'Weezevent' => [
+                        'enabled' => true,
+                    ],
+                ],
               ),
               'priority'  => 60
           )
       )
-  ),
-
-// Catégorie
-  'categories' => array(
-      'plugin:weezevent' => 'mautic.weezevent.categories'
   ),
 );
