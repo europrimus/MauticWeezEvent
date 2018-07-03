@@ -112,6 +112,11 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
     $message=[];
 
     // on regarde si déja executé aujourd'huit
+/*
+$values = $event->getConfig();
+$event->setConfig($values);
+*/
+
     /*
 $this->em->persist($this->settings);
 $this->em->flush();
