@@ -1,5 +1,5 @@
 # MauticWeezEvent
-Plugin Mautic de récupération de donnée sur WeezEvent  
+Plugin Mautic de récupération de données sur WeezEvent  
 Répertoire à mettre dans le sous répertoire **plugins** de mautic
 
 ## weezevent
@@ -8,14 +8,14 @@ Répertoire à mettre dans le sous répertoire **plugins** de mautic
 [doc officiel](https://api.weezevent.com/)  
 [aide API](https://aide.weezevent.com/article/119-api)  
 
-Il faut d'abort s'authentifier pour récupérer un token d'acces  
+Il faut d'abord s'authentifier pour récupérer un token d'acces  
 [POST /auth/access_token](https://api.weezevent.com/#auth_access_token)
 
-on peu ensuite récupérer la liste des participants  
+on peut ensuite récupérer la liste des participants  
 [GET /participant/list](https://api.weezevent.com/#participants)
 
 ## Mautic
-Mautic est un logiciel libre qui permet de faire des envois de mail automatique ciblé  
+Mautic est un logiciel libre qui permet de faire des envois de mail automatiques ciblés  
 [mautic](https://mautic.org)
 
 ### Environement de développement  
