@@ -11,7 +11,7 @@ return array(
 // informations sur le plugin
   'name'        => 'Weezevent',
   'description' => 'Récupération de donnée weezevent.com',
-  'version'     => '1.0.0',
+  'version'     => '1.1.0',
   'author'      => 'Didier et Geoffrey',
 
 // services

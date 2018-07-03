@@ -8,6 +8,7 @@ use Mautic\LeadBundle\Entity\Lead;
 
 class eventController extends FormController
 {
+  private $connect = false;
 /*
 private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'companies', 'position',
     'address1', 'address2', 'city', 'state', 'zipcode', 'country',
@@ -19,10 +20,8 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
  private function connexion(){
   // recupération de la configuration
   // config from integration
-       /** @var \Mautic\PluginBundle\Helper\IntegrationHelper $helper */
-       $helper = $this->factory->getHelper('integration');
        /** @var  MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration $Weezevent */
-       $Weezevent = $helper->getIntegrationObject('Weezevent');
+       $Weezevent = $this->factory->getHelper('integration')->getIntegrationObject('Weezevent');
     //on récupère les valeurs
        $keys = $Weezevent->getKeys();
        $login = $keys["Weezevent_login"];
@@ -33,15 +32,19 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
        $weezeventModel = $this->getModel('mauticweezevent.api');
     // connexion a l'api
        $weezeventModel->connect( $login,$pass,$APIkey );
-       return $weezeventModel;
+       $this->connect = $weezeventModel;
+       //return $weezeventModel;
   }
 
 // liste les événements
   public function listeAction(){
-    $weezeventModel = $this->connexion();
+    if(!$this->connect){
+      $this->connexion();
+    }
+
 // recuperation des evenements
-    if($weezeventModel->isConnected()){
-      $events = $weezeventModel->getEvents();
+    if($this->connect->isConnected()){
+      $events = $this->connect->getEvents();
     }else{
       // à traduire
       $events = false;
@@ -65,10 +68,12 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
 
   public function ImportTicketsAction($idEvent){
     $nomEvent= $this->request->query->get("nomEvent");
-    $weezeventModel = $this->connexion();
+    if(!$this->connect){
+      $this->connexion();
+    }
 // recuperation des tickets
-    if($weezeventModel->isConnected()){
-      $tickets = $weezeventModel->getTickets($idEvent);
+    if($this->connect->isConnected()){
+      $tickets = $this->connect->getTickets($idEvent);
     }else{
       // à traduire
       $tickets = false;
@@ -111,7 +116,7 @@ private $availableLeadFields = [ 'title', 'firstname', 'lastname', 'email', 'com
     $nbImport=0;
     $message=[];
 
-    // on regarde si déja executé aujourd'huit
+    // on regarde si déja executé aujourdui
 /*
 $values = $event->getConfig();
 $event->setConfig($values);
@@ -124,11 +129,13 @@ $this->em->flush();
 
     // recupération des évènements
     $events = $this->lastDayEvents();
-    $weezeventModel = $this->connexion();
+    if(!$this->connect){
+      $this->connexion();
+    }
     foreach ($events as  $event) {
       // recuperation des tickets
-      if($weezeventModel->isConnected()){
-        $tickets = $weezeventModel->getTickets($event->id);
+      if($this->connect->isConnected()){
+        $tickets = $this->connect->getTickets($event->id);
         $message[]="Connexion résussit";
       }else{
         $message[]="Impossible de ce connecter";
@@ -148,21 +155,14 @@ $this->em->flush();
     }
     // return view
     return $this->delegateView(
-            array(
-                'viewParameters'  => array(
-                    'message'   => $message,
-                    'nombre'   => $nbImport,
-                ),
-                'contentTemplate' => 'MauticWeezeventBundle:admin:auto.json.php',
-                /*
-                'passthroughVars' => array(
-                    'activeLink'    => 'plugin_helloworld_world',
-                    'route'         => $this->generateUrl('plugin_helloworld_world', array('world' => $world)),
-                    'mauticContent' => 'helloWorldDetails'
-                )
-                */
-            )
-        );
+      array(
+        'viewParameters'  => array(
+          'message'   => $message,
+          'nombre'   => $nbImport,
+        ),
+        'contentTemplate' => 'MauticWeezeventBundle:admin:auto.json.php',
+      )
+    );
   }
 
   // recherche par date
@@ -170,10 +170,12 @@ $this->em->flush();
       $date = date('Y-m-d',strtotime("-1 days"));
       //$date = date('Y-m-d');
 
-      $weezeventModel = $this->connexion();
+      if(!$this->connect){
+        $this->connexion();
+      }
   // recuperation des evenements
-      if($weezeventModel->isConnected()){
-        return $weezeventModel->getEventByDate($date,5);
+      if($this->connect->isConnected()){
+        return $this->connect->getEventByDate($date,5);
       }else{
         return false;
       }
