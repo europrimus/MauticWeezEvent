@@ -55,8 +55,7 @@ $view['slots']->set('headerTitle', $titre);
 
 <!-- afficher les evenements + bouton d ' importation  -->
       <div class="col-md-6">
-       
-          <ul>
+      <ul>
       <?php
         if( is_array($events) ){
           $count=0;
@@ -78,7 +77,6 @@ $view['slots']->set('headerTitle', $titre);
         }
       ?>
       </ul>
-
       </div>
     </div>
   </div>
