@@ -14,30 +14,31 @@ $view['slots']->set('headerTitle', $titre);
 
 <!-- un peu de style -->
 <style type="text/css">
-  img {
+  .weezevent-content> img {
     display: inline-block;
+    top: 0;
   }
-  content-body {
+  .weezevent-content> content-body {
     margin-left: 10vw;
-    margin-bottom: 20em;   
+    margin-bottom: 20em;
   }
-  h3 {
+  .weezevent-content> h3 {
     margin-top: 30px;
   }
-  ul {
+   ul {
     list-style-type: none;
   }
 
-  li {
+  .weezevent-content  li {
     margin: 12px;
     cursor: default;
   }
 
-  .fa {
+   .weezevent-content .fa {
     font-size: 23px;
   }
 
-  li:hover {
+   .weezevent-content li:hover {
     color: blue;
   }
 
@@ -55,6 +56,7 @@ $view['slots']->set('headerTitle', $titre);
 
 <!-- afficher les evenements + bouton d ' importation  -->
       <div class="col-md-6">
+
       <ul>
       <?php
         if( is_array($events) ){
@@ -66,7 +68,7 @@ $view['slots']->set('headerTitle', $titre);
               }else{
                 $date=$event->date->end;
               }
-              echo '<li>'. date("d/m/Y",strtotime($date) ) .' |'. $event->name .' || <a href="'.$view['router']->generate('plugin_weezevent_tickets',
+              echo '<li>'. date("d/m/Y",strtotime($date) ) .' | '. $event->name .' <a href="'.$view['router']->generate('plugin_weezevent_tickets',
                 array('idEvent' => $event->id, 'nomEvent'=> $event->name )).'" ><i class="fa fa-cloud-download" aria-hidden="true"></i></a>
               </li>';
               $count++;
@@ -77,9 +79,10 @@ $view['slots']->set('headerTitle', $titre);
         }
       ?>
       </ul>
+
       </div>
     </div>
   </div>
 
-  
+
 </div>
