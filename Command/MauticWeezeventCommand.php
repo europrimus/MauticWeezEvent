@@ -117,13 +117,10 @@ $this->em->flush();
        $APIkey = $keys["Weezevent_API_key"];
 
       // recuperation du model
-         //$weezeventModel = $this->getModel('mauticweezevent.api');
-         //$weezeventModel = $this->getContainer()->get('mauticweezevent.api');
          $weezeventModel = $this->getContainer()->get('mautic.mauticweezevent.model.api');
       // connexion a l'api
          $weezeventModel->connect( $login,$pass,$APIkey );
          $this->connect = $weezeventModel;
-         //return $weezeventModel;
     }
 
     /* ajoute ou met à jour un contact
@@ -151,7 +148,7 @@ $this->em->flush();
       $leadModel = $this->getContainer()->get('mautic.lead.model.lead');
       $leadId = null;
 
-      // Optionally check for identifier fields to determine if the lead is unique
+      // Check for identifier fields to determine if the lead is unique
       $uniqueLeadFields    = $this->getContainer()->get('mautic.lead.model.field')->getUniqueIdentiferFields();
       $uniqueLeadFieldData = array();
 
@@ -180,6 +177,7 @@ $this->em->flush();
 
         // Set the lead's data
         $leadModel->setFieldValues($lead, $mappedContacts);
+
         // ajout de l'évènement dans les tags
         //$leadModel->setTags($lead, $contactInfo["event"]);
 
