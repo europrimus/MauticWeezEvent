@@ -11,14 +11,13 @@ return array(
 // informations sur le plugin
   'name'        => 'Weezevent',
   'description' => 'Récupération de donnée weezevent.com',
-  'version'     => '1.0.0',
-  'author'      => 'Didier et Geoffrey',
+  'version'     => '1.1.0',
+  'author'      => 'Didier Courty et Geoffrey Morel',
 
 // services
   'services'    => array(
-    // pour tuiliser le model API
+    // pour utiliser le model API
     'models' => array(
-      //mautic.mauticweezevent.model.api
       'mautic.mauticweezevent.model.api' => array(
         'class' => MauticPlugin\MauticWeezeventBundle\Model\APIModel::class,
         'arguments' => [],
@@ -35,21 +34,7 @@ return array(
 
 // les routes
   'routes'   => array(
-    'public' => [
-      'plugin_weezevent_auto' => array(
-        'path'       => '/weezevent/cron',
-        'controller' => 'MauticWeezeventBundle:event:auto',
-        'method'     => 'GET',
-      ),
-      ],
     'main' => array(
-  // la configuration
-      'plugin_weezevent_config' => array(
-        'path'       => '/weezevent/admin',
-        'controller' => 'MauticWeezeventBundle:admin:config',
-        'method'     => 'GET',
-      ),
-
   // les evenements
       'plugin_weezevent' => array(
         'path'       => '/weezevent',
@@ -60,7 +45,6 @@ return array(
         'controller' => 'MauticWeezeventBundle:event:ImportTickets',
         'requirements' => array(
             'idEvent' => '[0-9]*'
-            //'nomEvent' => '(.*)'
         )
       ),
     ),
@@ -68,22 +52,6 @@ return array(
 
 // ajout dans le menu
   'menu'     => array(
-      'admin' => array(
-          'plugin.weezevent.admin' => array(
-            //'parent' => 'mautic.core.plugins',
-            'route'     => 'plugin_weezevent_config',
-            'iconClass' => 'fa-ticket',
-            'access'    => 'admin',
-            'checks'    => array(
-              'integration' => [
-                  'Weezevent' => [
-                      'enabled' => true,
-                  ],
-              ],
-            ),
-            'priority'  => 100
-          )
-      ),
       'main' => array(
           'plugin.weezevent.menu' => array(
               'parent' => 'mautic.core.components',

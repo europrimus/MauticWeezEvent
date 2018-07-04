@@ -14,11 +14,7 @@ class APIModel extends AbstractCommonModel
     private $headers = array(
              "content-type: application/x-www-form-urlencoded;charset=utf-8"
           );
-/*
-    public function __construct()
-    {
-    }
-*/
+
     public function connect($login,$pass,$key)
     {
       $this->api_email=$login;
@@ -87,31 +83,10 @@ class APIModel extends AbstractCommonModel
 
     public function getEventByDate($date,$maxResult = 1)
     {
-/*
-      $url = 'https://api.weezevent.com/event/search?api_key='.$this->api_key.
-        '&access_token='.$this->api_token.
-        '&date='.$date.
-        '&max_result='.$maxResult;
-      dump($url);
-*/
-/*
-      $url = 'https://api.weezevent.com/event/search/?api_key='.$this->api_key.
-        '&access_token='.$this->api_token.
-        '&date_start='.$date.
-        '&date_end='.$date.
-        '&max_result='.$maxResult.
-        '&organizer='.urlencode("CPME Côte d'Or");
-      dump($url);
-      $ch=$this->initCurl($url);
-      $events = curl_exec($ch);
-      $events = json_decode($events);
-*/
       $events=$this->getEvents();
       $returnEvents=[];
       foreach ($events as $key => $event) {
         if(count($returnEvents) < $maxResult){
-          //echo strtotime($date."-1 days")." < ".strtotime($event->date->end)." < ".strtotime($date)."<br>".PHP_EOL;
-          //if( strtotime($date."-1 days") < strtotime($event->date->end) && strtotime($event->date->end) < strtotime($date)){
           if( strtotime($date) < strtotime($event->date->end) && strtotime($event->date->end) < strtotime($date."+1 days")){
             $returnEvents[]=$event;
           }
