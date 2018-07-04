@@ -1,8 +1,8 @@
 <?php
 /**
  * @package     MauticWeezevent
- * @copyright   2018 Didier et Geoffrey
- * @author      Didier et Geoffrey
+ * @copyright   2018 Didier Courty et Geoffrey Morel
+ * @author      Didier Courty et Geoffrey Morel
  * @link        https://github.com/europrimus/MauticWeezEvent
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -10,8 +10,8 @@
 return array(
 // informations sur le plugin
   'name'        => 'Weezevent',
-  'description' => 'Récupération de donnée weezevent.com',
-  'version'     => '1.1.0',
+  'description' => 'Importing from weezevent.com tickets owner as contacts',
+  'version'     => '1.0.0',
   'author'      => 'Didier Courty et Geoffrey Morel',
 
 // services
