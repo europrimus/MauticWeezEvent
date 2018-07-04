@@ -15,6 +15,7 @@ class MauticWeezeventCommand extends ContainerAwareCommand
   private $lastExecutionDate;
   private $input;
   private $output;
+  private $Integration;
   private $connect = false;
 
   /**
@@ -36,14 +37,22 @@ class MauticWeezeventCommand extends ContainerAwareCommand
     $this->input = $input;
     $this->output = $output;
 
+    // config from integration
+    /** @var  MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration $Weezevent */
+    $this->Integration = $this->getContainer()->get('mautic.helper.integration')->getIntegrationObject('Weezevent');
+
+    // si le pluggin est actif on continu
+    if( !$this->Integration->getIntegrationSettings()->getIsPublished() ){return 0;};
     // on regarde si déja executé aujourd'huit
     $this->lastExecutionDate = date("Y-m-d");
-
+    //$this->getContainer()->get('doctrine')->getManager()->persist( ["weezevent.cron.lastExecutionDate" => $this->lastExecutionDate] );
+    //$config = $this->getContainer()->get('mautic.event.model.config')->getConfig();
+    //echo "config: ".gettype($config);
 /*
 $values = $event->getConfig();
 $event->setConfig($values);
 
-$this->em->persist($this->$lastExecutionDate);
+$this->em->persist( entity object );
 $this->em->flush();
 */
 
@@ -106,15 +115,11 @@ $this->em->flush();
 
    private function connexion(){
     // recupération de la configuration
-    // config from integration
-         /** @var  MauticPlugin\MauticWeezeventBundle\Integration\WeezeventIntegration $Weezevent */
-         //$Weezevent = $this->factory->getHelper('integration')->getIntegrationObject('Weezevent');
-         $Weezevent = $this->getContainer()->get('mautic.helper.integration')->getIntegrationObject('Weezevent');
-      //on récupère les valeurs
-         $keys = $Weezevent->getKeys();
-         $login = $keys["Weezevent_login"];
-         $pass = $keys["Weezevent_password"];
-         $APIkey = $keys["Weezevent_API_key"];
+    //on récupère les valeurs
+       $keys = $this->Integration->getKeys();
+       $login = $keys["Weezevent_login"];
+       $pass = $keys["Weezevent_password"];
+       $APIkey = $keys["Weezevent_API_key"];
 
       // recuperation du model
          //$weezeventModel = $this->getModel('mauticweezevent.api');

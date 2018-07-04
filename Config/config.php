@@ -35,6 +35,7 @@ return array(
 
 // les routes
   'routes'   => array(
+/*
     'public' => [
       'plugin_weezevent_auto' => array(
         'path'       => '/weezevent/cron',
@@ -42,14 +43,16 @@ return array(
         'method'     => 'GET',
       ),
       ],
+*/
     'main' => array(
   // la configuration
+/*
       'plugin_weezevent_config' => array(
         'path'       => '/weezevent/admin',
         'controller' => 'MauticWeezeventBundle:admin:config',
         'method'     => 'GET',
       ),
-
+*/
   // les evenements
       'plugin_weezevent' => array(
         'path'       => '/weezevent',
@@ -68,6 +71,7 @@ return array(
 
 // ajout dans le menu
   'menu'     => array(
+/*
       'admin' => array(
           'plugin.weezevent.admin' => array(
             //'parent' => 'mautic.core.plugins',
@@ -84,6 +88,7 @@ return array(
             'priority'  => 100
           )
       ),
+*/
       'main' => array(
           'plugin.weezevent.menu' => array(
               'parent' => 'mautic.core.components',
