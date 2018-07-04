@@ -32,9 +32,9 @@ class WeezeventIntegration extends AbstractIntegration
   public function getRequiredKeyFields()
   {
     return [
-      'Weezevent_login' => 'plugin.weezevent.config.Weezevent_login',
-      'Weezevent_password' => 'plugin.weezevent.config.Weezevent_password',
-      'Weezevent_API_key' => 'plugin.weezevent.config.Weezevent_API_key',
+      'Weezevent_login' => 'plugin.weezevent.config.login',
+      'Weezevent_password' => 'plugin.weezevent.config.password',
+      'Weezevent_API_key' => 'plugin.weezevent.config.API_key',
     ];
   }
 /**
