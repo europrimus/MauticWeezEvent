@@ -26,9 +26,8 @@ $view['slots']->set('headerTitle', $titre);
           }else{
             $date=$event->date->end;
           }
-
           echo '<li style="margin: 10px;">'.date("d/m/Y",strtotime($date) )." | ".$event->name.' <a href="'.$view['router']->generate('plugin_weezevent_tickets',
-            array('idEvent' => $event->id, 'nomEvent'=> $event->name )).'" ><button> Importer les contacts </button></a>
+            array('idEvent' => $event->id, 'nomEvent'=> $event->name )).'" ><i class="fa fa-cloud-download" aria-hidden="true"></i></a>
           </li>';
           $count++;
         }

@@ -58,7 +58,6 @@ $this->em->flush();
 
 // déplacé depuis le controller
     $nbImport=0;
-    $messages=[];
 
     // recupération des évènements
     $events = $this->lastDayEvents();
@@ -67,9 +66,9 @@ $this->em->flush();
       // recuperation des tickets
       if($this->connect->isConnected()){
         $tickets = $this->connect->getTickets($event->id);
-        $message[]="Connexion résussit";
+        $this->output->writeln("Weezevent : Connexion résussit");
       }else{
-        $message[]="Impossible de ce connecter";
+        $this->output->writeln("Weezevent : Impossible de ce connecter");
         $tickets = false;
       }
       //parcour de la liste
@@ -85,11 +84,7 @@ $this->em->flush();
       }
     }
 
-    $messages[]=$this->lastExecutionDate." Weezevent : ".$nbImport." contacts importés ";
-    foreach($messages as $message ){
-      $this->output->writeln($message);
-      echo $message.PHP_EOL;
-    }
+    $this->output->writeln($this->lastExecutionDate." Weezevent : ".$nbImport." contacts importés");
   }
 
   // recherche par date
@@ -99,7 +94,7 @@ $this->em->flush();
       }else{
         $date = date('Y-m-d',strtotime("-1 days"));
       }
-      echo "import from :".$date.PHP_EOL;
+      //echo "import from :".$date.PHP_EOL;
 
       if(!$this->connect){
         $this->connexion();
